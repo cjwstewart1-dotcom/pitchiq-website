@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="What is xG (expected goals) in football? A plain English explanation of the most important stat in modern football analysis." />
+  <meta name="keywords" content="xG, expected goals, football stats, football analytics, what is xG" />
+  <title>What is xG and why does it matter? — PitchIQ</title>
+  <link rel="icon" href="../assets/icon.png" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../blog.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <img src="../assets/icon.png" alt="PitchIQ" class="nav-icon" />
+        <a href="../index.html" style="text-decoration:none"><span class="nav-name">PitchIQ</span></a>
+      </div>
+      <div class="nav-links">
+        <a href="../index.html#features">Features</a>
+        <a href="../blog.html" style="color: var(--yellow)">Blog</a>
+        <a href="../index.html#download" class="nav-cta">Download</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="post-hero">
+    <a href="../blog.html" class="back-link">← BACK TO BLOG</a>
+    <div class="post-tag">DATA FUNDAMENTALS</div>
+    <h1 class="post-title">What is xG and why does it matter?</h1>
+    <p class="post-meta">June 2026 · 5 min read · PitchIQ</p>
+  </div>
+
+  <div class="post-body">
+
+    <p>If you've watched football in the last few years, you've probably heard the term xG thrown around by commentators, pundits and football fans. But what does it actually mean? And why has it become the most important metric in modern football analysis?</p>
+
+    <p>This is the plain English explanation you've been looking for.</p>
+
+    <h2>What does xG stand for?</h2>
+
+    <p>xG stands for <strong>Expected Goals</strong>. It's a statistical measure that tells you the probability that any given shot will result in a goal, based on the quality of the chance.</p>
+
+    <p>Every shot is assigned an xG value between 0 and 1. A value of 0.1 means there's a 10% chance that shot results in a goal. A value of 0.9 means there's a 90% chance. A penalty, for example, typically has an xG of around 0.76 — meaning historically, penalties are converted about 76% of the time.</p>
+
+    <div class="post-stat-box">
+      <p>💡 A tap-in from six yards might have an xG of 0.85. A long-range speculative effort from 35 yards might have an xG of 0.02. Add them all up across a match and you get the total xG — a picture of how many goals each team "should" have scored.</p>
+    </div>
+
+    <h2>How is xG calculated?</h2>
+
+    <p>xG models are built using historical data from thousands and thousands of shots. Data scientists look at every shot ever taken and measure the factors that determine whether it goes in or not:</p>
+
+    <ul>
+      <li><strong>Distance from goal</strong> — the closer, the higher the xG</li>
+      <li><strong>Angle of the shot</strong> — central shots score more often than wide-angle ones</li>
+      <li><strong>Type of assist</strong> — a through ball creates better chances than a long pass</li>
+      <li><strong>Body part used</strong> — headers have a lower conversion rate than feet</li>
+      <li><strong>Game situation</strong> — open play vs set piece</li>
+      <li><strong>Defensive pressure</strong> — how many defenders were between the shooter and goal</li>
+    </ul>
+
+    <p>The more advanced models (used by Premier League clubs and international teams) also factor in goalkeeper positioning, the speed of the attack and whether it was a first-time shot or not.</p>
+
+    <h2>Why is xG more useful than shots?</h2>
+
+    <p>For years, people used shots and shots on target as a proxy for attacking quality. But these stats treat a tap-in from two yards the same as a 35-yard screamer. They're not equivalent chances and they shouldn't be counted equally.</p>
+
+    <p>xG solves this problem. It weights every shot by its actual quality. A team that creates three gilt-edged chances worth 0.8 xG each is in a far stronger position than a team that creates fifteen long shots worth 0.03 xG each — even if the second team has more shots on target.</p>
+
+    <div class="post-stat-box">
+      <p>💡 In the 2022 World Cup final, Argentina and France both ended the match with virtually identical xG figures despite the chaotic 3-3 scoreline. The penalties were arguably the fairest possible outcome — the xG model saw it coming.</p>
+    </div>
+
+    <h2>What does xG tell you that the scoreline doesn't?</h2>
+
+    <p>The scoreline tells you what happened. xG tells you what <em>should have</em> happened based on the chances created.</p>
+
+    <p>This is where xG becomes genuinely powerful. A team can win 1-0 while their opponent created 2.4 xG to their 0.3 xG. The winning team got lucky. The losing team played the better football. Without xG, you'd never know.</p>
+
+    <p>Over a single match, xG can be deceiving — football is random and individual brilliance or goalkeeper heroics can override the numbers. But over a season, xG is one of the most reliable predictors of a team's true quality. Teams that consistently generate high xG and concede low xG tend to rise up the table. Teams that punch above their weight in terms of results typically regress towards what their xG suggested.</p>
+
+    <h2>How PitchIQ uses xG</h2>
+
+    <p>PitchIQ tracks live xG throughout every match, updating in real time as chances are created. We use it in several ways:</p>
+
+    <ul>
+      <li><strong>Live xG tracker</strong> — see how the xG balance shifts minute by minute</li>
+      <li><strong>Match prediction engine</strong> — our Poisson model uses live xG to calculate the probability of every possible scoreline</li>
+      <li><strong>Player-level xG</strong> — see how much xG each individual player has generated or conceded</li>
+      <li><strong>AI match analysis</strong> — our post-match AI uses xG as a core part of its tactical analysis</li>
+    </ul>
+
+    <p>When you see xG figures in PitchIQ, you're seeing the same data that professional clubs, broadcasters and analysts use to evaluate performance.</p>
+
+    <h2>The bottom line</h2>
+
+    <p>xG is the single most useful stat in football because it cuts through the noise of lucky goals and unlucky misses. It tells you, based on decades of historical shot data, how good the chances actually were — regardless of what happened next.</p>
+
+    <p>Next time you watch a match and one team is losing despite looking the better side, check the xG. More often than not, the numbers will confirm what your eyes are telling you.</p>
+
+    <div class="post-divider"></div>
+
+    <div class="post-cta">
+      <h3>Track live xG in every match</h3>
+      <p>PitchIQ shows you real-time xG, player-level stats, heatmaps and AI match analysis. Free to download.</p>
+      <a href="../index.html#download" class="btn btn-primary">Download PitchIQ</a>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="../assets/icon.png" alt="PitchIQ" class="footer-icon" />
+        <span>PitchIQ</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://slow-tabletop-083.notion.site/Privacy-Policy-PitchIQ-ef1862272db24c9d944872ee78459784" target="_blank">Privacy Policy</a>
+        <a href="mailto:cjwstewart1@gmail.com">Contact</a>
+      </div>
+      <p class="footer-copy">© 2026 PitchIQ. Every Stat Until The Final Whistle.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
