@@ -53,65 +53,210 @@
       <p class="hero-note">Free to download · iOS & Android</p>
     </div>
 
-    <!-- Animated terminal/data display -->
-    <div class="hero-terminal">
-      <div class="terminal-bar">
-        <span class="terminal-dot red"></span>
-        <span class="terminal-dot yellow"></span>
-        <span class="terminal-dot green"></span>
-        <span class="terminal-title">PITCHIQ LIVE</span>
+    <!-- App screenshot carousel -->
+    <div class="carousel-container">
+      <div class="carousel" id="carousel">
+
+        <!-- Slide 1: Live Match Stats -->
+        <div class="carousel-slide active">
+          <div class="terminal-bar">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">LIVE MATCH STATS</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-match">
+              <span class="t-team home">BRAZIL 🇧🇷</span>
+              <span class="t-score">1 — 1</span>
+              <span class="t-team away">🇦🇷 ARGENTINA</span>
+            </div>
+            <div class="t-minute">◉ 67'  LIVE</div>
+            <div class="t-divider"></div>
+            <div class="t-stats">
+              <div class="t-stat-row"><span class="t-val home">54%</span><span class="t-label">POSSESSION</span><span class="t-val away">46%</span></div>
+              <div class="t-stat-row"><span class="t-val home">9</span><span class="t-label">TOTAL SHOTS</span><span class="t-val away">7</span></div>
+              <div class="t-stat-row"><span class="t-val home highlight">1.8</span><span class="t-label">xG</span><span class="t-val away">1.2</span></div>
+              <div class="t-stat-row"><span class="t-val home">412</span><span class="t-label">PASSES</span><span class="t-val away">351</span></div>
+              <div class="t-stat-row"><span class="t-val home">90%</span><span class="t-label">PASS ACC.</span><span class="t-val away">85%</span></div>
+              <div class="t-stat-row"><span class="t-val home">5</span><span class="t-label">CORNERS</span><span class="t-val away">3</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Match Prediction -->
+        <div class="carousel-slide">
+          <div class="terminal-bar">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">MATCH PREDICTION</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-minute" style="margin-bottom:10px">📊 POISSON MODEL — LIVE xG</div>
+            <div class="pred-label">WIN PROBABILITY</div>
+            <div class="pred-bar-wrap">
+              <div class="pred-seg" style="flex:42;background:var(--yellow);opacity:0.85"></div>
+              <div class="pred-seg" style="flex:24;background:#555;opacity:0.6"></div>
+              <div class="pred-seg" style="flex:34;background:var(--blue);opacity:0.85"></div>
+            </div>
+            <div class="pred-labels">
+              <span style="color:var(--yellow)">Brazil 42%</span>
+              <span style="color:#888">Draw 24%</span>
+              <span style="color:var(--blue)">ARG 34%</span>
+            </div>
+            <div class="t-divider"></div>
+            <div class="pred-label">MOST LIKELY SCORELINES</div>
+            <div class="pred-scores">
+              <div class="pred-score top">1-1 <span>14%</span></div>
+              <div class="pred-score">2-1 <span>11%</span></div>
+              <div class="pred-score">1-0 <span>10%</span></div>
+              <div class="pred-score">2-0 <span>8%</span></div>
+            </div>
+            <div class="t-divider"></div>
+            <div class="pred-label">PROJECTED FINAL xG AT 90'</div>
+            <div class="t-stat-row" style="margin-top:6px">
+              <span class="t-val home highlight">2.4</span>
+              <span class="t-label">xG PROJECTION</span>
+              <span class="t-val away">1.6</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Player Stats -->
+        <div class="carousel-slide">
+          <div class="terminal-bar">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">PLAYER INTELLIGENCE</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-match" style="margin-bottom:4px">
+              <span class="t-team home" style="font-size:13px">VINÍCIUS JR.</span>
+              <span style="color:var(--yellow);font-size:18px;font-weight:bold">8.2</span>
+            </div>
+            <div style="font-size:9px;color:var(--text-dim);margin-bottom:10px">FWD · BRAZIL · 67 MINS</div>
+            <div class="t-divider"></div>
+            <div class="player-stat-grid">
+              <div class="ps-row"><span>xG</span><span class="ps-val">0.90</span></div>
+              <div class="ps-row"><span>SHOTS</span><span class="ps-val">4</span></div>
+              <div class="ps-row"><span>DRIBBLES W/A</span><span class="ps-val">5/8</span></div>
+              <div class="ps-row"><span>KEY PASSES</span><span class="ps-val">3</span></div>
+              <div class="ps-row"><span>DISTANCE RUN</span><span class="ps-val highlight">7.2km</span></div>
+              <div class="ps-row"><span>SPRINTS</span><span class="ps-val">22</span></div>
+              <div class="ps-row"><span>TOUCHES IN BOX</span><span class="ps-val">7</span></div>
+              <div class="ps-row"><span>FOULS WON</span><span class="ps-val">4</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: Momentum Chart -->
+        <div class="carousel-slide">
+          <div class="terminal-bar">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">MATCH MOMENTUM</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-minute" style="margin-bottom:8px">📈 DOMINANCE BY 15-MIN PERIOD</div>
+            <div class="momentum-labels">
+              <span style="color:var(--yellow)">▲ BRAZIL</span>
+              <span style="color:var(--blue)">▼ ARGENTINA</span>
+            </div>
+            <div class="momentum-chart">
+              <div class="mom-col">
+                <div class="mom-bar-up" style="height:28px;background:var(--yellow)"></div>
+                <div class="mom-period">0-15</div>
+                <div class="mom-bar-down" style="height:14px;background:var(--blue)"></div>
+              </div>
+              <div class="mom-col">
+                <div class="mom-bar-up" style="height:18px;background:var(--yellow)"></div>
+                <div class="mom-period">15-30</div>
+                <div class="mom-bar-down" style="height:24px;background:var(--blue)"></div>
+              </div>
+              <div class="mom-col">
+                <div class="mom-bar-up" style="height:32px;background:var(--yellow)"></div>
+                <div class="mom-period">30-45</div>
+                <div class="mom-bar-down" style="height:10px;background:#333"></div>
+              </div>
+              <div class="mom-col">
+                <div class="mom-bar-up" style="height:14px;background:#333"></div>
+                <div class="mom-period">45-60</div>
+                <div class="mom-bar-down" style="height:30px;background:var(--blue)"></div>
+              </div>
+              <div class="mom-col">
+                <div class="mom-bar-up" style="height:36px;background:var(--yellow)"></div>
+                <div class="mom-period">60-75</div>
+                <div class="mom-bar-down" style="height:10px;background:#333"></div>
+              </div>
+              <div class="mom-col" style="opacity:0.3">
+                <div class="mom-bar-up" style="height:16px;background:#333"></div>
+                <div class="mom-period">75-90</div>
+                <div class="mom-bar-down" style="height:16px;background:#333"></div>
+              </div>
+            </div>
+            <div class="t-divider"></div>
+            <div style="font-size:8px;color:var(--text-dim)">▪ YELLOW = BRAZIL WIN PERIOD &nbsp;▪ BLUE = ARGENTINA WIN PERIOD &nbsp;▪ GREY = EVEN</div>
+          </div>
+        </div>
+
+        <!-- Slide 5: AI Analysis -->
+        <div class="carousel-slide">
+          <div class="terminal-bar">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">AI MATCH ANALYSIS</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-minute" style="margin-bottom:8px">🤖 PITCHIQ INTELLIGENCE · FULL TIME</div>
+            <div class="t-divider"></div>
+            <div class="ai-block">
+              <p class="ai-para first">Brazil's xG advantage of 1.8 vs 1.2 tells the real story of a match that was closer on the scoreboard than it was in reality. The Seleção controlled the territorial battle throughout.</p>
+              <p class="ai-para">Argentina's defensive organisation was exceptional in the opening 45 minutes — Scaloni's 4-2-3-1 block denied Brazil space in central areas. But the second half shift in pressing intensity told.</p>
+              <p class="ai-para">Casemiro's 4 interceptions and 10.3km covered was the most important performance on the pitch. Without his defensive work, the scoreline would have been different.</p>
+            </div>
+            <div class="t-divider"></div>
+            <div style="font-size:8px;color:var(--text-dim);font-style:italic">▪ POWERED BY GOOGLE GEMINI · BASED ON LIVE MATCH DATA</div>
+          </div>
+        </div>
+
       </div>
-      <div class="terminal-body">
-        <div class="t-match">
-          <span class="t-team home">BRAZIL 🇧🇷</span>
-          <span class="t-score">1 — 1</span>
-          <span class="t-team away">🇦🇷 ARGENTINA</span>
-        </div>
-        <div class="t-minute">◉ 67'  LIVE</div>
-        <div class="t-divider"></div>
-        <div class="t-stats">
-          <div class="t-stat-row">
-            <span class="t-val home">54%</span>
-            <span class="t-label">POSSESSION</span>
-            <span class="t-val away">46%</span>
-          </div>
-          <div class="t-stat-row">
-            <span class="t-val home">9</span>
-            <span class="t-label">TOTAL SHOTS</span>
-            <span class="t-val away">7</span>
-          </div>
-          <div class="t-stat-row">
-            <span class="t-val home highlight">1.8</span>
-            <span class="t-label">xG</span>
-            <span class="t-val away">1.2</span>
-          </div>
-          <div class="t-stat-row">
-            <span class="t-val home">412</span>
-            <span class="t-label">PASSES</span>
-            <span class="t-val away">351</span>
-          </div>
-          <div class="t-stat-row">
-            <span class="t-val home">90%</span>
-            <span class="t-label">PASS ACC.</span>
-            <span class="t-val away">85%</span>
-          </div>
-        </div>
-        <div class="t-divider"></div>
-        <div class="t-event goal">
-          <span class="t-event-min">23'</span>
-          <span class="t-event-text">⚽ GOAL — Vinícius Jr. (Brazil)</span>
-        </div>
-        <div class="t-event">
-          <span class="t-event-min">51'</span>
-          <span class="t-event-text">⚽ GOAL — L. Martínez (Argentina)</span>
-        </div>
-        <div class="t-divider"></div>
-        <div class="t-ai">
-          <span class="t-ai-label">🤖 AI ANALYSIS</span>
-          <span class="t-ai-text">Brazil's xG advantage of 1.8 vs 1.2 suggests they should be winning. Vinícius Jr. creating chaos on the left flank...</span>
-        </div>
+
+      <!-- Carousel controls -->
+      <div class="carousel-dots">
+        <button class="dot active" onclick="goToSlide(0)"></button>
+        <button class="dot" onclick="goToSlide(1)"></button>
+        <button class="dot" onclick="goToSlide(2)"></button>
+        <button class="dot" onclick="goToSlide(3)"></button>
+        <button class="dot" onclick="goToSlide(4)"></button>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn" onclick="prevSlide()">◀</button>
+        <button class="carousel-btn" onclick="nextSlide()">▶</button>
       </div>
     </div>
+
+    <script>
+      let current = 0;
+      const slides = document.querySelectorAll('.carousel-slide');
+      const dots = document.querySelectorAll('.dot');
+
+      function goToSlide(n) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (n + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+      }
+      function nextSlide() { goToSlide(current + 1); }
+      function prevSlide() { goToSlide(current - 1); }
+
+      // Auto-advance every 4 seconds
+      setInterval(nextSlide, 4000);
+    </script>
   </section>
 
   <!-- STATS STRIP -->
