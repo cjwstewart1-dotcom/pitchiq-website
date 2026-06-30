@@ -280,19 +280,14 @@
     // ── MATCH DATA ────────────────────────────────────────────────────────────
     // Update team names here if any are incorrect — everything else is automatic
     const R16_MATCHES = [
-      { id: 'r16_1',  home: 'Morocco',         away: 'Netherlands',   done: true,  winner: 'Morocco',   score: '1-1 (4-2 pens)' },
-      { id: 'r16_2',  home: 'Brazil',           away: 'Japan',         done: true,  winner: 'Brazil',    score: '2-1' },
-      { id: 'r16_3',  home: 'Paraguay',         away: 'Germany',       done: true,  winner: 'Paraguay',  score: '1-1 (4-3 pens)' },
-      { id: 'r16_4',  home: 'France',           away: 'Ecuador',       done: false },
-      { id: 'r16_5',  home: 'Argentina',        away: 'Mexico',        done: false },
-      { id: 'r16_6',  home: 'USA',              away: 'Canada',        done: false },
-      { id: 'r16_7',  home: 'England',          away: 'Sweden',        done: false },
-      { id: 'r16_8',  home: 'Portugal',         away: 'Norway',        done: false },
-      { id: 'r16_9',  home: 'Spain',            away: 'South Africa',  done: false },
-      { id: 'r16_10', home: 'Korea Republic',   away: 'Croatia',       done: false },
-      { id: 'r16_11', home: 'Senegal',          away: 'Ghana',         done: false },
-      { id: 'r16_12', home: 'Austria',          away: 'Tunisia',       done: false },
-      { id: 'r16_13', home: 'Algeria',          away: 'DR Congo',      done: false },
+      { id: 'r16_1', home: 'Canada',    away: 'Morocco',   done: false, date: 'SAT 4 JUL' },
+      { id: 'r16_2', home: 'Paraguay',  away: 'France',    done: false, date: 'SAT 4 JUL' },
+      { id: 'r16_3', home: 'Brazil',    away: 'Norway',    done: false, date: 'SUN 5 JUL' },
+      { id: 'r16_4', home: 'Ecuador',   away: 'England',   done: false, date: 'MON 6 JUL' },
+      { id: 'r16_5', home: 'Portugal',  away: 'Spain',     done: false, date: 'MON 6 JUL' },
+      { id: 'r16_6', home: 'USA',       away: 'Belgium',   done: false, date: 'TUE 7 JUL' },
+      { id: 'r16_7', home: 'Argentina', away: 'Australia', done: false, date: 'TUE 7 JUL' },
+      { id: 'r16_8', home: 'Colombia',  away: 'Switzerland', done: false, date: 'TUE 7 JUL' },
     ];
 
     // ── SUPABASE ──────────────────────────────────────────────────────────────
@@ -347,7 +342,7 @@
         const awayPct = total > 0 ? 100 - homePct : 50;
         const myPick = myPicks[match.id];
 
-        let html = `<div class="match-label">MATCH ${i + 1} · ROUND OF 16</div>`;
+        let html = `<div class="match-label">ROUND OF 16 · ${match.date || ''}</div>`;
 
         if (match.done) {
           // Completed match — show result
