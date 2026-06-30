@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pick the winners of every knockout match and see how your predictions compare to everyone else." />
+  <title>Predict — PitchIQ</title>
+  <link rel="icon" href="assets/icon.png" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body { padding-top: 60px; }
+
+    .predict-hero {
+      border-bottom: 1px solid var(--border);
+      padding: 40px 24px 32px;
+      text-align: center;
+    }
+    .predict-hero .section-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+    .predict-hero h1 {
+      font-size: clamp(22px, 4vw, 36px);
+      color: var(--yellow);
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+    .predict-hero p {
+      color: var(--green);
+      font-size: 13px;
+      max-width: 520px;
+      margin: 0 auto;
+      opacity: 0.8;
+    }
+
+    .round-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      max-width: 860px;
+      margin: 0 auto;
+      overflow-x: auto;
+    }
+    .round-tab {
+      flex: 1;
+      min-width: 100px;
+      padding: 14px 10px;
+      font-family: var(--font);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--text-dim);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .round-tab.active {
+      color: var(--yellow);
+      border-bottom-color: var(--yellow);
+    }
+    .round-tab:hover:not(.active) { color: var(--green); }
+
+    .round-panel { display: none; }
+    .round-panel.active { display: block; }
+
+    .matches-grid {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .match-card {
+      background: var(--bg-mid);
+      border: 1px solid var(--border);
+      padding: 16px;
+    }
+
+    .match-label {
+      font-size: 8px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+
+    .team-buttons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .team-btn {
+      flex: 1;
+      padding: 10px 6px;
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-align: center;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      color: var(--green);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .team-btn:hover { border-color: var(--green); color: var(--green-bright); }
+    .team-btn.picked-home { background: #1a2a00; border-color: var(--yellow); color: var(--yellow); }
+    .team-btn.picked-away { background: #001a2a; border-color: var(--blue); color: #6ab5f5; }
+
+    .vs-divider {
+      font-size: 9px;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    /* Percent bars */
+    .pick-bars {
+      margin-top: 12px;
+    }
+    .pick-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+    .pick-bar-label {
+      font-size: 8px;
+      color: var(--text-dim);
+      width: 70px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .pick-bar-track {
+      flex: 1;
+      height: 6px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .pick-bar-fill {
+      height: 100%;
+      background: var(--text-dim);
+      transition: width 0.4s;
+    }
+    .pick-bar-fill.home { background: var(--yellow); opacity: 0.85; }
+    .pick-bar-fill.away { background: var(--blue); opacity: 0.85; }
+    .pick-bar-pct {
+      font-size: 9px;
+      color: var(--text-dim);
+      width: 28px;
+      text-align: right;
+    }
+    .pick-bar-pct.my-pick { color: var(--yellow); font-weight: bold; }
+
+    /* Completed match */
+    .result-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .result-team {
+      flex: 1;
+      font-size: 11px;
+      font-weight: bold;
+      color: var(--text-dim);
+      text-align: center;
+    }
+    .result-team.winner { color: var(--yellow); }
+    .result-score {
+      font-size: 11px;
+      color: var(--green);
+      white-space: nowrap;
+      text-align: center;
+    }
+    .result-badge {
+      font-size: 8px;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      padding: 2px 5px;
+      margin-top: 6px;
+      display: inline-block;
+    }
+
+    .tbd-panel {
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 16px;
+      text-align: center;
+    }
+    .tbd-panel p {
+      color: var(--text-dim);
+      font-size: 11px;
+      letter-spacing: 1px;
+      border: 1px solid var(--border);
+      padding: 32px;
+    }
+
+    .pick-count-note {
+      font-size: 8px;
+      color: var(--text-dim);
+      margin-top: 10px;
+      text-align: right;
+      letter-spacing: 0.5px;
+    }
+
+    .your-pick-tag {
+      font-size: 8px;
+      color: var(--yellow);
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <img src="assets/icon.png" alt="PitchIQ" class="nav-icon" />
+        <a href="index.html" style="text-decoration:none"><span class="nav-name">PitchIQ</span></a>
+      </div>
+      <div class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="blog.html">Blog</a>
+        <a href="predict.html" style="color: var(--yellow)">Predict</a>
+        <a href="index.html#download" class="nav-cta">Download</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="predict-hero">
+    <p class="section-label">PITCHIQ KNOCKOUT PREDICTOR</p>
+    <h1>PICK THE WINNERS</h1>
+    <p>Click a team to back them in each match. See how your picks compare to everyone else in real time — no sign-up required.</p>
+  </div>
+
+  <div class="round-tabs">
+    <button class="round-tab active" data-round="r16">ROUND OF 16</button>
+    <button class="round-tab" data-round="qf">QUARTER-FINALS</button>
+    <button class="round-tab" data-round="sf">SEMI-FINALS</button>
+    <button class="round-tab" data-round="final">FINAL</button>
+  </div>
+
+  <div id="r16" class="round-panel active">
+    <div class="matches-grid" id="r16-grid"></div>
+  </div>
+
+  <div id="qf" class="round-panel">
+    <div class="tbd-panel">
+      <p>◈ QUARTER-FINAL FIXTURES WILL APPEAR HERE ONCE THE ROUND OF 16 IS COMPLETE</p>
+    </div>
+  </div>
+
+  <div id="sf" class="round-panel">
+    <div class="tbd-panel">
+      <p>◈ SEMI-FINAL FIXTURES WILL APPEAR HERE ONCE THE QUARTER-FINALS ARE COMPLETE</p>
+    </div>
+  </div>
+
+  <div id="final" class="round-panel">
+    <div class="tbd-panel">
+      <p>◈ THE FINAL FIXTURE WILL APPEAR HERE ONCE THE SEMI-FINALS ARE COMPLETE</p>
+    </div>
+  </div>
+
+  <script>
+    // ── CONFIG ────────────────────────────────────────────────────────────────
+    const SUPABASE_URL = 'https://biqjokykffgpryxguhxw.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_G7P4rCo3_L4KEgmjG8lb7g_6qj_mIYk';
+
+    // ── MATCH DATA ────────────────────────────────────────────────────────────
+    // Update team names here if any are incorrect — everything else is automatic
+    const R16_MATCHES = [
+      { id: 'r16_1',  home: 'Morocco',         away: 'Netherlands',   done: true,  winner: 'Morocco',   score: '1-1 (4-2 pens)' },
+      { id: 'r16_2',  home: 'Brazil',           away: 'Japan',         done: true,  winner: 'Brazil',    score: '2-1' },
+      { id: 'r16_3',  home: 'Paraguay',         away: 'Germany',       done: true,  winner: 'Paraguay',  score: '1-1 (4-3 pens)' },
+      { id: 'r16_4',  home: 'France',           away: 'Ecuador',       done: false },
+      { id: 'r16_5',  home: 'Argentina',        away: 'Mexico',        done: false },
+      { id: 'r16_6',  home: 'USA',              away: 'Canada',        done: false },
+      { id: 'r16_7',  home: 'England',          away: 'Sweden',        done: false },
+      { id: 'r16_8',  home: 'Portugal',         away: 'Norway',        done: false },
+      { id: 'r16_9',  home: 'Spain',            away: 'South Africa',  done: false },
+      { id: 'r16_10', home: 'Korea Republic',   away: 'Croatia',       done: false },
+      { id: 'r16_11', home: 'Senegal',          away: 'Ghana',         done: false },
+      { id: 'r16_12', home: 'Austria',          away: 'Tunisia',       done: false },
+      { id: 'r16_13', home: 'Algeria',          away: 'DR Congo',      done: false },
+    ];
+
+    // ── SUPABASE ──────────────────────────────────────────────────────────────
+    const { createClient } = supabase;
+    const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ── LOCAL PICKS ───────────────────────────────────────────────────────────
+    function getMyPicks() {
+      try { return JSON.parse(localStorage.getItem('pitchiq_picks') || '{}'); } catch { return {}; }
+    }
+    function saveMyPick(matchId, team) {
+      const picks = getMyPicks();
+      picks[matchId] = team;
+      localStorage.setItem('pitchiq_picks', JSON.stringify(picks));
+    }
+
+    // ── FETCH PICK COUNTS FROM SUPABASE ───────────────────────────────────────
+    async function fetchCounts() {
+      const { data, error } = await sb.from('picks').select('match_id, team');
+      if (error || !data) return {};
+      const counts = {};
+      data.forEach(({ match_id, team }) => {
+        if (!counts[match_id]) counts[match_id] = {};
+        counts[match_id][team] = (counts[match_id][team] || 0) + 1;
+      });
+      return counts;
+    }
+
+    // ── SUBMIT PICK ───────────────────────────────────────────────────────────
+    async function submitPick(matchId, team) {
+      saveMyPick(matchId, team);
+      await sb.from('picks').insert({ match_id: matchId, team });
+      const counts = await fetchCounts();
+      renderGrid(counts);
+    }
+
+    // ── RENDER ────────────────────────────────────────────────────────────────
+    function renderGrid(counts) {
+      const myPicks = getMyPicks();
+      const grid = document.getElementById('r16-grid');
+      grid.innerHTML = '';
+
+      R16_MATCHES.forEach((match, i) => {
+        const card = document.createElement('div');
+        card.className = 'match-card';
+
+        const matchCounts = counts[match.id] || {};
+        const homeCount = matchCounts[match.home] || 0;
+        const awayCount = matchCounts[match.away] || 0;
+        const total = homeCount + awayCount;
+        const homePct = total > 0 ? Math.round((homeCount / total) * 100) : 50;
+        const awayPct = total > 0 ? 100 - homePct : 50;
+        const myPick = myPicks[match.id];
+
+        let html = `<div class="match-label">MATCH ${i + 1} · ROUND OF 16</div>`;
+
+        if (match.done) {
+          // Completed match — show result
+          html += `
+            <div class="result-display">
+              <div class="result-team ${match.winner === match.home ? 'winner' : ''}">${match.home}</div>
+              <div class="result-score">${match.score}</div>
+              <div class="result-team ${match.winner === match.away ? 'winner' : ''}">${match.away}</div>
+            </div>
+            <div><span class="result-badge">◈ FULL TIME · ${match.winner.toUpperCase()} ADVANCE</span></div>
+          `;
+        } else {
+          // Pickable match
+          const homeCls = myPick === match.home ? 'picked-home' : '';
+          const awayCls = myPick === match.away ? 'picked-away' : '';
+          html += `
+            <div class="team-buttons">
+              <button class="team-btn ${homeCls}" onclick="submitPick('${match.id}', '${match.home}')">${match.home}</button>
+              <span class="vs-divider">VS</span>
+              <button class="team-btn ${awayCls}" onclick="submitPick('${match.id}', '${match.away}')">${match.away}</button>
+            </div>
+          `;
+          if (myPick) {
+            html += `<div class="your-pick-tag">◈ YOUR PICK: ${myPick.toUpperCase()}</div>`;
+          }
+        }
+
+        // % bars — show if picked or match is done
+        if (myPick || match.done) {
+          html += `
+            <div class="pick-bars">
+              <div class="pick-bar-row">
+                <span class="pick-bar-label">${match.home}</span>
+                <div class="pick-bar-track"><div class="pick-bar-fill home" style="width:${homePct}%"></div></div>
+                <span class="pick-bar-pct ${myPick === match.home ? 'my-pick' : ''}">${homePct}%</span>
+              </div>
+              <div class="pick-bar-row">
+                <span class="pick-bar-label">${match.away}</span>
+                <div class="pick-bar-track"><div class="pick-bar-fill away" style="width:${awayPct}%"></div></div>
+                <span class="pick-bar-pct ${myPick === match.away ? 'my-pick' : ''}">${awayPct}%</span>
+              </div>
+            </div>
+            <div class="pick-count-note">${total} PICK${total !== 1 ? 'S' : ''}</div>
+          `;
+        } else {
+          html += `<div class="pick-count-note" style="margin-top:10px">PICK TO SEE RESULTS</div>`;
+        }
+
+        card.innerHTML = html;
+        grid.appendChild(card);
+      });
+    }
+
+    // ── TABS ──────────────────────────────────────────────────────────────────
+    document.querySelectorAll('.round-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.round-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.round-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.round).classList.add('active');
+      });
+    });
+
+    // ── INIT ──────────────────────────────────────────────────────────────────
+    (async () => {
+      const counts = await fetchCounts();
+      renderGrid(counts);
+    })();
+  </script>
+
+</body>
+</html>
