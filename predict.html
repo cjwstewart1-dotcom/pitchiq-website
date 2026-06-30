@@ -283,35 +283,41 @@
     const SUPABASE_KEY = 'sb_publishable_G7P4rCo3_L4KEgmjG8lb7g_6qj_mIYk';
 
     // ── MATCH DATA ────────────────────────────────────────────────────────────
+    // Match IDs use home_away format to share picks with the PitchIQ app
+    function toMatchId(home, away) {
+      const norm = s => s.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+      return `${norm(home)}_${norm(away)}`;
+    }
+
     const R32_MATCHES = [
-      { id: 'r32_1',  home: 'South Africa', away: 'Canada',      done: true,  winner: 'Canada',    score: '0-1',            date: 'SUN 28 JUN' },
-      { id: 'r32_2',  home: 'Germany',      away: 'Paraguay',    done: true,  winner: 'Paraguay',  score: '1-1 (3-4 pens)', date: 'MON 29 JUN' },
-      { id: 'r32_3',  home: 'Brazil',       away: 'Japan',       done: true,  winner: 'Brazil',    score: '2-1',            date: 'MON 29 JUN' },
-      { id: 'r32_4',  home: 'Netherlands',  away: 'Morocco',     done: true,  winner: 'Morocco',   score: '2-3 (pens)',      date: 'TUE 30 JUN' },
-      { id: 'r32_5',  home: 'France',       away: 'Sweden',      done: false, date: 'TUE 30 JUN' },
-      { id: 'r32_6',  home: 'Ivory Coast',  away: 'Norway',      done: false, date: 'TUE 30 JUN' },
-      { id: 'r32_7',  home: 'Mexico',       away: 'Ecuador',     done: false, date: 'WED 1 JUL' },
-      { id: 'r32_8',  home: 'England',      away: 'DR Congo',    done: false, date: 'WED 1 JUL' },
-      { id: 'r32_9',  home: 'Belgium',      away: 'Senegal',     done: false, date: 'WED 1 JUL' },
-      { id: 'r32_10', home: 'USA',          away: 'Bosnia',      done: false, date: 'THU 2 JUL' },
-      { id: 'r32_11', home: 'Spain',        away: 'Austria',     done: false, date: 'THU 2 JUL' },
-      { id: 'r32_12', home: 'Australia',    away: 'Egypt',       done: false, date: 'FRI 3 JUL' },
-      { id: 'r32_13', home: 'Portugal',     away: 'Croatia',     done: false, date: 'FRI 3 JUL' },
-      { id: 'r32_14', home: 'Switzerland',  away: 'Algeria',     done: false, date: 'FRI 3 JUL' },
-      { id: 'r32_15', home: 'Argentina',    away: 'Cape Verde',  done: false, date: 'FRI 3 JUL' },
-      { id: 'r32_16', home: 'Colombia',     away: 'Ghana',       done: false, date: 'SAT 4 JUL' },
-    ];
+      { home: 'South Africa', away: 'Canada',      done: true,  winner: 'Canada',    score: '0-1',            date: 'SUN 28 JUN' },
+      { home: 'Germany',      away: 'Paraguay',    done: true,  winner: 'Paraguay',  score: '1-1 (3-4 pens)', date: 'MON 29 JUN' },
+      { home: 'Brazil',       away: 'Japan',       done: true,  winner: 'Brazil',    score: '2-1',            date: 'MON 29 JUN' },
+      { home: 'Netherlands',  away: 'Morocco',     done: true,  winner: 'Morocco',   score: '2-3 (pens)',      date: 'TUE 30 JUN' },
+      { home: 'France',       away: 'Sweden',      done: false, date: 'TUE 30 JUN' },
+      { home: 'Ivory Coast',  away: 'Norway',      done: false, date: 'TUE 30 JUN' },
+      { home: 'Mexico',       away: 'Ecuador',     done: false, date: 'WED 1 JUL' },
+      { home: 'England',      away: 'DR Congo',    done: false, date: 'WED 1 JUL' },
+      { home: 'Belgium',      away: 'Senegal',     done: false, date: 'WED 1 JUL' },
+      { home: 'USA',          away: 'Bosnia',      done: false, date: 'THU 2 JUL' },
+      { home: 'Spain',        away: 'Austria',     done: false, date: 'THU 2 JUL' },
+      { home: 'Australia',    away: 'Egypt',       done: false, date: 'FRI 3 JUL' },
+      { home: 'Portugal',     away: 'Croatia',     done: false, date: 'FRI 3 JUL' },
+      { home: 'Switzerland',  away: 'Algeria',     done: false, date: 'FRI 3 JUL' },
+      { home: 'Argentina',    away: 'Cape Verde',  done: false, date: 'FRI 3 JUL' },
+      { home: 'Colombia',     away: 'Ghana',       done: false, date: 'SAT 4 JUL' },
+    ].map(m => ({ ...m, id: toMatchId(m.home, m.away) }));
 
     const R16_MATCHES = [
-      { id: 'r16_1', home: 'Canada',                  away: 'Morocco',                 done: false, date: 'SAT 4 JUL' },
-      { id: 'r16_2', home: 'Winner of Match 2',        away: 'Winner of Match 5',       done: false, date: 'SAT 4 JUL',  homeDesc: 'Germany vs Paraguay', awayDesc: 'France vs Sweden' },
-      { id: 'r16_3', home: 'Winner of Match 3',        away: 'Winner of Match 6',       done: false, date: 'SUN 5 JUL', homeDesc: 'Brazil vs Japan',    awayDesc: 'Ivory Coast vs Norway' },
-      { id: 'r16_4', home: 'Winner of Match 7',        away: 'Winner of Match 8',       done: false, date: 'MON 6 JUL', homeDesc: 'Mexico vs Ecuador',  awayDesc: 'England vs DR Congo' },
-      { id: 'r16_5', home: 'Winner of Match 13',       away: 'Winner of Match 11',      done: false, date: 'MON 6 JUL', homeDesc: 'Portugal vs Croatia', awayDesc: 'Spain vs Austria' },
-      { id: 'r16_6', home: 'Winner of Match 10',       away: 'Winner of Match 9',       done: false, date: 'TUE 7 JUL', homeDesc: 'USA vs Bosnia',      awayDesc: 'Belgium vs Senegal' },
-      { id: 'r16_7', home: 'Winner of Match 15',       away: 'Winner of Match 12',      done: false, date: 'TUE 7 JUL', homeDesc: 'Argentina vs Cape Verde', awayDesc: 'Australia vs Egypt' },
-      { id: 'r16_8', home: 'Winner of Match 16',       away: 'Winner of Match 14',      done: false, date: 'TUE 7 JUL', homeDesc: 'Colombia vs Ghana',  awayDesc: 'Switzerland vs Algeria' },
-    ];
+      { home: 'Canada',             away: 'Morocco',             done: false, date: 'SAT 4 JUL' },
+      { home: 'Winner of Match 2',  away: 'Winner of Match 5',   done: false, date: 'SAT 4 JUL',  homeDesc: 'Germany vs Paraguay',    awayDesc: 'France vs Sweden' },
+      { home: 'Winner of Match 3',  away: 'Winner of Match 6',   done: false, date: 'SUN 5 JUL',  homeDesc: 'Brazil vs Japan',        awayDesc: 'Ivory Coast vs Norway' },
+      { home: 'Winner of Match 7',  away: 'Winner of Match 8',   done: false, date: 'MON 6 JUL',  homeDesc: 'Mexico vs Ecuador',      awayDesc: 'England vs DR Congo' },
+      { home: 'Winner of Match 13', away: 'Winner of Match 11',  done: false, date: 'MON 6 JUL',  homeDesc: 'Portugal vs Croatia',    awayDesc: 'Spain vs Austria' },
+      { home: 'Winner of Match 10', away: 'Winner of Match 9',   done: false, date: 'TUE 7 JUL',  homeDesc: 'USA vs Bosnia',          awayDesc: 'Belgium vs Senegal' },
+      { home: 'Winner of Match 15', away: 'Winner of Match 12',  done: false, date: 'TUE 7 JUL',  homeDesc: 'Argentina vs Cape Verde', awayDesc: 'Australia vs Egypt' },
+      { home: 'Winner of Match 16', away: 'Winner of Match 14',  done: false, date: 'TUE 7 JUL',  homeDesc: 'Colombia vs Ghana',      awayDesc: 'Switzerland vs Algeria' },
+    ].map(m => ({ ...m, id: toMatchId(m.home, m.away) }));
 
     // ── SUPABASE ──────────────────────────────────────────────────────────────
     const { createClient } = supabase;
