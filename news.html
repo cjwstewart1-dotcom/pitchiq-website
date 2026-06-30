@@ -207,18 +207,10 @@
       guardian: { url: 'https://www.theguardian.com/football/world-cup-2026/rss', label: 'THE GUARDIAN', key: 'guardian' },
     };
 
-    // Keywords to filter for tournament relevance
-    const TOURNAMENT_KEYWORDS = [
-      'world cup', '2026', 'knockout', 'group stage', 'round of',
-      'quarter', 'semi-final', 'final', 'tournament', 'fixture',
-      'canada', 'usa', 'mexico', 'france', 'brazil', 'england',
-      'argentina', 'portugal', 'spain', 'morocco', 'norway', 'sweden',
-      'germany', 'paraguay', 'ecuador', 'belgium', 'colombia',
-    ];
+    const MAX_AGE_MS = 48 * 60 * 60 * 1000; // 48 hours
 
-    function isRelevant(item) {
-      const text = `${item.title} ${item.description}`.toLowerCase();
-      return TOURNAMENT_KEYWORDS.some(kw => text.includes(kw));
+    function isWithin48Hours(dateStr) {
+      return (Date.now() - new Date(dateStr)) < MAX_AGE_MS;
     }
 
     function timeAgo(dateStr) {
@@ -234,11 +226,11 @@
 
     async function fetchFeed(feed) {
       try {
-        const res = await fetch(`${RSS2JSON}?rss_url=${encodeURIComponent(feed.url)}&count=30`);
+        const res = await fetch(`${RSS2JSON}?rss_url=${encodeURIComponent(feed.url)}&count=50`);
         const data = await res.json();
         if (data.status !== 'ok') return [];
         return data.items
-          .filter(isRelevant)
+          .filter(item => isWithin48Hours(item.pubDate))
           .map(item => ({
             title:     item.title,
             snippet:   stripHtml(item.description).slice(0, 160),
