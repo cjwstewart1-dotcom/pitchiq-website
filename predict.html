@@ -244,13 +244,18 @@
   </div>
 
   <div class="round-tabs">
-    <button class="round-tab active" data-round="r16">ROUND OF 16</button>
+    <button class="round-tab active" data-round="r32">ROUND OF 32</button>
+    <button class="round-tab" data-round="r16">ROUND OF 16</button>
     <button class="round-tab" data-round="qf">QUARTER-FINALS</button>
     <button class="round-tab" data-round="sf">SEMI-FINALS</button>
     <button class="round-tab" data-round="final">FINAL</button>
   </div>
 
-  <div id="r16" class="round-panel active">
+  <div id="r32" class="round-panel active">
+    <div class="matches-grid" id="r32-grid"></div>
+  </div>
+
+  <div id="r16" class="round-panel">
     <div class="matches-grid" id="r16-grid"></div>
   </div>
 
@@ -278,15 +283,33 @@
     const SUPABASE_KEY = 'sb_publishable_G7P4rCo3_L4KEgmjG8lb7g_6qj_mIYk';
 
     // ── MATCH DATA ────────────────────────────────────────────────────────────
-    // Update team names here if any are incorrect — everything else is automatic
+    const R32_MATCHES = [
+      { id: 'r32_1',  home: 'South Africa', away: 'Canada',      done: true,  winner: 'Canada',    score: '0-1',            date: 'SUN 28 JUN' },
+      { id: 'r32_2',  home: 'Germany',      away: 'Paraguay',    done: true,  winner: 'Paraguay',  score: '1-1 (3-4 pens)', date: 'MON 29 JUN' },
+      { id: 'r32_3',  home: 'Brazil',       away: 'Japan',       done: true,  winner: 'Brazil',    score: '2-1',            date: 'MON 29 JUN' },
+      { id: 'r32_4',  home: 'Netherlands',  away: 'Morocco',     done: true,  winner: 'Morocco',   score: '2-3 (pens)',      date: 'TUE 30 JUN' },
+      { id: 'r32_5',  home: 'France',       away: 'Sweden',      done: false, date: 'TUE 30 JUN' },
+      { id: 'r32_6',  home: 'Ivory Coast',  away: 'Norway',      done: false, date: 'TUE 30 JUN' },
+      { id: 'r32_7',  home: 'Mexico',       away: 'Ecuador',     done: false, date: 'WED 1 JUL' },
+      { id: 'r32_8',  home: 'England',      away: 'DR Congo',    done: false, date: 'WED 1 JUL' },
+      { id: 'r32_9',  home: 'Belgium',      away: 'Senegal',     done: false, date: 'WED 1 JUL' },
+      { id: 'r32_10', home: 'USA',          away: 'Bosnia',      done: false, date: 'THU 2 JUL' },
+      { id: 'r32_11', home: 'Spain',        away: 'Austria',     done: false, date: 'THU 2 JUL' },
+      { id: 'r32_12', home: 'Australia',    away: 'Egypt',       done: false, date: 'FRI 3 JUL' },
+      { id: 'r32_13', home: 'Portugal',     away: 'Croatia',     done: false, date: 'FRI 3 JUL' },
+      { id: 'r32_14', home: 'Switzerland',  away: 'Algeria',     done: false, date: 'FRI 3 JUL' },
+      { id: 'r32_15', home: 'Argentina',    away: 'Cape Verde',  done: false, date: 'FRI 3 JUL' },
+      { id: 'r32_16', home: 'Colombia',     away: 'Ghana',       done: false, date: 'SAT 4 JUL' },
+    ];
+
     const R16_MATCHES = [
-      { id: 'r16_1', home: 'Canada',    away: 'Morocco',   done: false, date: 'SAT 4 JUL' },
-      { id: 'r16_2', home: 'Paraguay',  away: 'France',    done: false, date: 'SAT 4 JUL' },
-      { id: 'r16_3', home: 'Brazil',    away: 'Norway',    done: false, date: 'SUN 5 JUL' },
-      { id: 'r16_4', home: 'Ecuador',   away: 'England',   done: false, date: 'MON 6 JUL' },
-      { id: 'r16_5', home: 'Portugal',  away: 'Spain',     done: false, date: 'MON 6 JUL' },
-      { id: 'r16_6', home: 'USA',       away: 'Belgium',   done: false, date: 'TUE 7 JUL' },
-      { id: 'r16_7', home: 'Argentina', away: 'Australia', done: false, date: 'TUE 7 JUL' },
+      { id: 'r16_1', home: 'Canada',    away: 'Morocco',     done: false, date: 'SAT 4 JUL' },
+      { id: 'r16_2', home: 'Paraguay',  away: 'France',      done: false, date: 'SAT 4 JUL' },
+      { id: 'r16_3', home: 'Brazil',    away: 'Norway',      done: false, date: 'SUN 5 JUL' },
+      { id: 'r16_4', home: 'Ecuador',   away: 'England',     done: false, date: 'MON 6 JUL' },
+      { id: 'r16_5', home: 'Portugal',  away: 'Spain',       done: false, date: 'MON 6 JUL' },
+      { id: 'r16_6', home: 'USA',       away: 'Belgium',     done: false, date: 'TUE 7 JUL' },
+      { id: 'r16_7', home: 'Argentina', away: 'Australia',   done: false, date: 'TUE 7 JUL' },
       { id: 'r16_8', home: 'Colombia',  away: 'Switzerland', done: false, date: 'TUE 7 JUL' },
     ];
 
@@ -321,16 +344,16 @@
       saveMyPick(matchId, team);
       await sb.from('picks').insert({ match_id: matchId, team });
       const counts = await fetchCounts();
-      renderGrid(counts);
+      renderAllGrids(counts);
     }
 
-    // ── RENDER ────────────────────────────────────────────────────────────────
-    function renderGrid(counts) {
+    // ── RENDER ONE GRID ───────────────────────────────────────────────────────
+    function renderGrid(matches, gridId, roundLabel, counts) {
       const myPicks = getMyPicks();
-      const grid = document.getElementById('r16-grid');
+      const grid = document.getElementById(gridId);
       grid.innerHTML = '';
 
-      R16_MATCHES.forEach((match, i) => {
+      matches.forEach(match => {
         const card = document.createElement('div');
         card.className = 'match-card';
 
@@ -342,10 +365,9 @@
         const awayPct = total > 0 ? 100 - homePct : 50;
         const myPick = myPicks[match.id];
 
-        let html = `<div class="match-label">ROUND OF 16 · ${match.date || ''}</div>`;
+        let html = `<div class="match-label">${roundLabel} · ${match.date || ''}</div>`;
 
         if (match.done) {
-          // Completed match — show result
           html += `
             <div class="result-display">
               <div class="result-team ${match.winner === match.home ? 'winner' : ''}">${match.home}</div>
@@ -355,7 +377,6 @@
             <div><span class="result-badge">◈ FULL TIME · ${match.winner.toUpperCase()} ADVANCE</span></div>
           `;
         } else {
-          // Pickable match
           const homeCls = myPick === match.home ? 'picked-home' : '';
           const awayCls = myPick === match.away ? 'picked-away' : '';
           html += `
@@ -370,7 +391,6 @@
           }
         }
 
-        // % bars — show if picked or match is done
         if (myPick || match.done) {
           html += `
             <div class="pick-bars">
@@ -396,6 +416,11 @@
       });
     }
 
+    function renderAllGrids(counts) {
+      renderGrid(R32_MATCHES, 'r32-grid', 'ROUND OF 32', counts);
+      renderGrid(R16_MATCHES, 'r16-grid', 'ROUND OF 16', counts);
+    }
+
     // ── TABS ──────────────────────────────────────────────────────────────────
     document.querySelectorAll('.round-tab').forEach(tab => {
       tab.addEventListener('click', () => {
@@ -409,7 +434,7 @@
     // ── INIT ──────────────────────────────────────────────────────────────────
     (async () => {
       const counts = await fetchCounts();
-      renderGrid(counts);
+      renderAllGrids(counts);
     })();
   </script>
 
