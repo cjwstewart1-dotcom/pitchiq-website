@@ -303,14 +303,14 @@
     ];
 
     const R16_MATCHES = [
-      { id: 'r16_1', home: 'Canada',    away: 'Morocco',     done: false, date: 'SAT 4 JUL' },
-      { id: 'r16_2', home: 'Paraguay',  away: 'France',      done: false, date: 'SAT 4 JUL' },
-      { id: 'r16_3', home: 'Brazil',    away: 'Norway',      done: false, date: 'SUN 5 JUL' },
-      { id: 'r16_4', home: 'Ecuador',   away: 'England',     done: false, date: 'MON 6 JUL' },
-      { id: 'r16_5', home: 'Portugal',  away: 'Spain',       done: false, date: 'MON 6 JUL' },
-      { id: 'r16_6', home: 'USA',       away: 'Belgium',     done: false, date: 'TUE 7 JUL' },
-      { id: 'r16_7', home: 'Argentina', away: 'Australia',   done: false, date: 'TUE 7 JUL' },
-      { id: 'r16_8', home: 'Colombia',  away: 'Switzerland', done: false, date: 'TUE 7 JUL' },
+      { id: 'r16_1', home: 'Canada',                  away: 'Morocco',                 done: false, date: 'SAT 4 JUL' },
+      { id: 'r16_2', home: 'Winner of Match 2',        away: 'Winner of Match 5',       done: false, date: 'SAT 4 JUL',  homeDesc: 'Germany vs Paraguay', awayDesc: 'France vs Sweden' },
+      { id: 'r16_3', home: 'Winner of Match 3',        away: 'Winner of Match 6',       done: false, date: 'SUN 5 JUL', homeDesc: 'Brazil vs Japan',    awayDesc: 'Ivory Coast vs Norway' },
+      { id: 'r16_4', home: 'Winner of Match 7',        away: 'Winner of Match 8',       done: false, date: 'MON 6 JUL', homeDesc: 'Mexico vs Ecuador',  awayDesc: 'England vs DR Congo' },
+      { id: 'r16_5', home: 'Winner of Match 13',       away: 'Winner of Match 11',      done: false, date: 'MON 6 JUL', homeDesc: 'Portugal vs Croatia', awayDesc: 'Spain vs Austria' },
+      { id: 'r16_6', home: 'Winner of Match 10',       away: 'Winner of Match 9',       done: false, date: 'TUE 7 JUL', homeDesc: 'USA vs Bosnia',      awayDesc: 'Belgium vs Senegal' },
+      { id: 'r16_7', home: 'Winner of Match 15',       away: 'Winner of Match 12',      done: false, date: 'TUE 7 JUL', homeDesc: 'Argentina vs Cape Verde', awayDesc: 'Australia vs Egypt' },
+      { id: 'r16_8', home: 'Winner of Match 16',       away: 'Winner of Match 14',      done: false, date: 'TUE 7 JUL', homeDesc: 'Colombia vs Ghana',  awayDesc: 'Switzerland vs Algeria' },
     ];
 
     // ── SUPABASE ──────────────────────────────────────────────────────────────
@@ -381,9 +381,15 @@
           const awayCls = myPick === match.away ? 'picked-away' : '';
           html += `
             <div class="team-buttons">
-              <button class="team-btn ${homeCls}" onclick="submitPick('${match.id}', '${match.home}')">${match.home}</button>
+              <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+                <button class="team-btn ${homeCls}" style="width:100%" onclick="submitPick('${match.id}', '${match.home}')">${match.home}</button>
+                ${match.homeDesc ? `<span style="font-size:7px;color:var(--text-dim);text-align:center;letter-spacing:0.5px">${match.homeDesc}</span>` : ''}
+              </div>
               <span class="vs-divider">VS</span>
-              <button class="team-btn ${awayCls}" onclick="submitPick('${match.id}', '${match.away}')">${match.away}</button>
+              <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+                <button class="team-btn ${awayCls}" style="width:100%" onclick="submitPick('${match.id}', '${match.away}')">${match.away}</button>
+                ${match.awayDesc ? `<span style="font-size:7px;color:var(--text-dim);text-align:center;letter-spacing:0.5px">${match.awayDesc}</span>` : ''}
+              </div>
             </div>
           `;
           if (myPick) {
