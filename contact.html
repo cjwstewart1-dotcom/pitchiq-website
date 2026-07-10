@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact PitchIQ — get in touch with questions, feedback, or press enquiries." />
+  <title>Contact — PitchIQ</title>
+  <link rel="icon" href="assets/icon.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .contact-wrap {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 120px 24px 80px;
+    }
+    .contact-header {
+      margin-bottom: 40px;
+    }
+    .contact-header .tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--yellow);
+      border: 1px solid var(--yellow);
+      padding: 3px 10px;
+      margin-bottom: 16px;
+    }
+    .contact-header h1 {
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: bold;
+      color: var(--green-bright);
+      letter-spacing: 2px;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+    .contact-header p {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .contact-header p a {
+      color: var(--yellow);
+      text-decoration: none;
+    }
+
+    /* Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--yellow);
+      text-transform: uppercase;
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      background: var(--bg-mid);
+      border: 1px solid var(--border-bright);
+      color: var(--green-bright);
+      font-family: var(--font);
+      font-size: 13px;
+      padding: 10px 14px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--yellow);
+    }
+    .field select option {
+      background: var(--bg-mid);
+    }
+    .field textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--text-dim);
+    }
+
+    .submit-btn {
+      display: inline-block;
+      background: var(--yellow);
+      color: #000;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      padding: 14px 32px;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      align-self: flex-start;
+      transition: opacity 0.2s;
+    }
+    .submit-btn:hover { opacity: 0.85; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+
+    .alt-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .alt-contact h2 {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--yellow);
+      text-transform: uppercase;
+    }
+    .alt-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--green);
+    }
+    .alt-row .alt-icon { font-size: 18px; }
+    .alt-row a {
+      color: var(--green-bright);
+      text-decoration: none;
+    }
+    .alt-row a:hover { color: var(--yellow); }
+    .alt-row .alt-note {
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    /* Success / error notice */
+    .notice {
+      display: none;
+      padding: 12px 16px;
+      border: 1px solid var(--border-bright);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+    .notice.success { border-color: var(--green); color: var(--green-bright); }
+    .notice.error   { border-color: #cc4444;      color: #ff8888; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <img src="assets/icon.png" alt="PitchIQ" class="nav-icon" />
+        <a href="index.html" style="text-decoration:none"><span class="nav-name">PitchIQ</span></a>
+      </div>
+      <div class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="news.html">News</a>
+        <a href="blog.html">Blog</a>
+        <a href="predict.html">Predict</a>
+        <a href="contact.html" style="color: var(--yellow)">Contact</a>
+        <a href="index.html#download" class="nav-cta">Download</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="contact-wrap">
+
+    <div class="contact-header">
+      <div class="tag">GET IN TOUCH</div>
+      <h1>CONTACT PITCHIQ</h1>
+      <p>
+        Got a question, feedback, or a bug to report? We'd love to hear from you.
+        Fill in the form below or drop us a direct email at
+        <a href="mailto:cjwstewart1@gmail.com">cjwstewart1@gmail.com</a>.
+      </p>
+    </div>
+
+    <div id="notice" class="notice"></div>
+
+    <form class="contact-form" id="contactForm">
+      <div class="field">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" placeholder="e.g. Alex Ferguson" required />
+      </div>
+
+      <div class="field">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+      </div>
+
+      <div class="field">
+        <label for="subject">Subject</label>
+        <select id="subject" name="subject" required>
+          <option value="" disabled selected>— select a topic —</option>
+          <option value="Feedback">App Feedback</option>
+          <option value="Bug Report">Bug Report</option>
+          <option value="Feature Request">Feature Request</option>
+          <option value="Press / Media">Press / Media</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">SEND MESSAGE ▶</button>
+    </form>
+
+    <hr class="divider" />
+
+    <div class="alt-contact">
+      <h2>Other Ways to Reach Us</h2>
+      <div class="alt-row">
+        <span class="alt-icon">✉</span>
+        <div>
+          <a href="mailto:cjwstewart1@gmail.com">cjwstewart1@gmail.com</a>
+          <div class="alt-note">We aim to reply within 48 hours</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="assets/icon.png" alt="PitchIQ" class="footer-icon" />
+      </div>
+      <div class="footer-links">
+        <a href="https://slow-tabletop-083.notion.site/Privacy-Policy-PitchIQ-ef1862272db24c9d944872ee78459784" target="_blank">Privacy Policy</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <p class="footer-copy">© 2026 PitchIQ. Every Stat Until The Final Whistle.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name    = document.getElementById('name').value.trim();
+      const email   = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value.trim();
+
+      const body = encodeURIComponent(
+        'Name: ' + name + '\n' +
+        'Email: ' + email + '\n' +
+        'Subject: ' + subject + '\n\n' +
+        message
+      );
+
+      const mailtoUrl = 'mailto:cjwstewart1@gmail.com'
+        + '?subject=' + encodeURIComponent('[PitchIQ] ' + subject)
+        + '&body=' + body;
+
+      // Open mailto
+      window.location.href = mailtoUrl;
+
+      // Show confirmation
+      const notice = document.getElementById('notice');
+      notice.className = 'notice success';
+      notice.textContent = '✔ YOUR MESSAGE IS READY — your email client should open now.';
+      notice.style.display = 'block';
+      notice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  </script>
+
+</body>
+</html>
